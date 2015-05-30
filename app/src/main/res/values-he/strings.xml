@@ -8,8 +8,7 @@
     </string>
 
     <string name="intro2">
-אם איבדת את הסלולארי והוא על מצב שקט,
-        שלח את המילה ringring ואתה יכול להיות בטוח שכשתחייג אליו הוא יצלצל!
+הסלולארי על מצב שקט ואיבדת אותו? שלח SMS עם המילה ringring ומיד אחר כך תוכל לחייג אליו ולשמוע אותו מצלצל!
     </string>
 
         <string name="anyone">קבל הודעת ringring מכל טלפון
@@ -21,6 +20,10 @@
     <string name="phone_number">מספר טלפון
     </string>
         <string name="get_number">בחר מספר מרשימת אנשי קשר
+    </string>
+        <string name="Power_OFF">כבוי
+    </string>
+    <string name="Power_ON">דלוק
     </string>
 
 

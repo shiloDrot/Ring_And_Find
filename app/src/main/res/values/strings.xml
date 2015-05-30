@@ -14,6 +14,10 @@
     </string>
     <string name="get_number">get number from contacts
     </string>
+    <string name="Power_OFF">Power OFF
+    </string>
+        <string name="Power_ON">Power ON
+    </string>
 
     <string name="intro2">
         If you can\'t find your phone,

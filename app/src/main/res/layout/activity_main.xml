@@ -6,22 +6,21 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Power OFF"
+        android:text="@string/Power_OFF"
         android:id="@+id/mySwitch"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_gravity="center"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:paddingBottom="10dp"
+        android:thumb="@drawable/thirdtheme_switch_thumb_activated_holo_light"/>
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mySwitch"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/radioGroup">
+        android:id="@+id/radioGroup"
+        android:gravity="right">
 
         <RadioButton
             android:layout_width="wrap_content"
