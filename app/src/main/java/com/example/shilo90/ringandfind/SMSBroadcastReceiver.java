@@ -1,31 +1,40 @@
 package com.example.shilo90.ringandfind;
 
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.io.IOException;
 
 public class SMSBroadcastReceiver extends BroadcastReceiver {
 
     public NotificationManager myNotificationManager;
     public static final int NOTIFICATION_ID = 2;
+    public static MediaPlayer mp;
+    public static NotificationManager notificationManager;
+
+    public Context myContext;
 
     @Override
     public void onReceive(Context context, Intent intent)
     {
+
+        myContext = context;
         //---get the SMS message passed in---
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs = null;
@@ -55,6 +64,9 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             int power = sharedPref.getInt("power", 0);
             int radio = sharedPref.getInt("radio", 1);
             String text = sharedPref.getString("text", "");
+            if (text.equals("")) {
+                text = " ";
+            }
 
             if (power == 0) {
                 return;
@@ -82,7 +94,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
                         }
                     }
                     else {
-                        text = "+" + sharedPref.getString("countryCode", "") + text.substring(1);
+                        text = "+" + sharedPref.getString("countryCode", "972") + text.substring(1);
                         if (!senderPhoneNumber.equals(text)) {
                             return;
                         }
@@ -90,6 +102,9 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
                 }
             }
 
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("screenOn", true);
+            editor.commit();
 
 
             AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -107,64 +122,51 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
 
             manager.setStreamVolume(AudioManager.STREAM_RING, manager.getStreamMaxVolume(manager.STREAM_RING), 0);
 
-            notification2(context);
-
+            try {
+                sendIntent(myContext);
+                Log.i("MyApp", "send intent");
+            } catch (IOException e) {
+                Log.i("MyApp", e.toString());
+                e.printStackTrace();
+            }
+                        startNotification(context);
+            //displayAlert(context);
         }
     }
 
-    private void notification(Context context) {
-        /*myNotificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-
-        CharSequence NotificationTicket = "Ring To Find";
-        CharSequence NotificationTitle = "Ring To Find";
-        CharSequence NotificationContent = "your phone is on RING mode!";
-
-        Notification notification = new Notification(R.mipmap.ic_launcher, NotificationTicket, 0);
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
-        notification.setLatestEventInfo(context, NotificationTitle, NotificationContent, contentIntent);
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
-        myNotificationManager.notify(NOTIFICATION_ID, notification);*/
+    private void startNotification(final Context context) {
 
         //Define Notification Manager
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-//Define sound URI
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        //Define sound URI
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_notifications_active_white_24dp)
-                .setContentTitle("Ring To Find")
-                .setContentText("your phone is on RING mode!")
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.mipmap.ic_ring_volume_white_24dp)
+                .setContentTitle(context.getResources().getText(R.string.app_name))
+                .setContentText(context.getResources().getText(R.string.notification))
                 .setSound(soundUri); //This sets the sound to play
 
-//Display notification
-        notificationManager.notify(2, mBuilder.build());
+        //Display notification
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+            }
+        }, 1200);
 
     }
 
-    public void notification2(Context context) {
-
-        final int id = 2;
-        String ns = Context.NOTIFICATION_SERVICE;
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-        int icon = R.mipmap.ic_notifications_active_white_24dp;
-        CharSequence tickerText = "Ring To Find";
-        long when = System.currentTimeMillis();
-
-        Notification checkin_notification = new Notification(icon, tickerText,
-                when);
-        CharSequence contentTitle = "Ring To Find";
-        CharSequence contentText = "your phone is on RING mode!";
-
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0);
-        checkin_notification.setLatestEventInfo(context, contentTitle,
-                contentText, contentIntent);
-        checkin_notification.flags = Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(id, checkin_notification);
-
+    public void sendIntent(Context context) throws IOException {
+        Intent i = new Intent(context, MainActivity2Activity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("ring", 5);
+        /*i.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED +
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD +
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON +
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);*/
+        context.startActivity(i);
     }
 }

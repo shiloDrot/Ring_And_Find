@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Ring And Find</string>
-
+    <string name="notification">הסמארטפון שלך במצב מצלצל!</string>
+    <string name="toast">גע במסך להפסקת הצלצול</string>
     <string name="hello_world">Hello world!</string>
     <string name="intro_title">הוראות:</string>
 
-    <string name="intro">When you lost your phone, and the ringer mode is vibrate or silent, you\'ll just need to send it an SMS with the word ringring. After that you can call your phone and be sure it will ring!
-    </string>
+    <string name="title_section1">ראשי</string>
+    <string name="title_section2">הוראות</string>
 
     <string name="intro2">
 הסלולארי על מצב שקט ואיבדת אותו? שלח SMS עם המילה ringring ומיד אחר כך תוכל לחייג אליו ולשמוע אותו מצלצל!
@@ -25,7 +26,42 @@
     </string>
     <string name="Power_ON">דלוק
     </string>
+    <string name="only_ring_mode">עבור למצב מצלצל לאחר קבלת הודעת ringring
+    </string>
+    <string name="make_phone_ring">הטלפון יצלצל לאחר קבלת הודעת ringring
+    </string>
 
+ <string name="intro1">הסמארטפון שלך אבד? הוא במצב שקט או רטט? \n שלח לו הודעת SMS עם המילה \'ringring\' והוא מיד יצלצל!
+    </string>
+
+    <string name="intro22">זכור: יש לשלוח הודעת SMS בלבד, עם המילה \'ringring\' ללא רווחים, וללא הוספת תווים נוספים כלל!
+    </string>
+
+    <string name="faq">
+        שאלות נפוצות:\n\n
+
+שאלה: למה הסמארטפון לא מצלצל כשאני שולח לא הודעת \'ringring\'?\n
+תשובה: בדוק שהאפליקציה נמצאת במצב \'פועל\'. ע"מ לבדוק זאת יש להיכנס למסך ההראשי ולוודא
+ברשומה המילה 'פועל' ולא רשומה המילה \'כבוי\'.\n \n
+
+שאלה: האפליקציה במצב \'פועל\' ועדיין אינני שומע צלצול לאחר קבלת הודעת SMS עם המילה \'ringring\'\n
+תשובה: יתכן שהגדרת שהודעת \'ringring\' תתקבל רק ממספר אחד שהוא שונה מהמספר שנשלחה ממנו הודעת הSMS.
+בפניך 2 אפשרויות:\n
+אפשרות א: שנה בהגדרות מהאפשרות – קבלת הודעת \'ringring\' רק ממספר אחד לאפשרות – קבלת הודעת \'ringring\' מכל טלפון.\n
+אפשרות ב: באפשרותך לשנות את המספר היחיד ממנו תרצה לקבל הודעת \'ringring\' ע\"י עריכת המספר ידנית, או ע\"י בחירת מספר מרשימת אנשי הקשר במכשירך.\n\n
+
+שאלה: האפליקציה במצב \'פועל\' ועדיין אינני שומע צלצול לאחר קבלת הודעת SMS עם המילה \'ringring\' מהמספר שרשום בעמוד הראשי.\n
+תשובה: יתכן ולא הזנת את המדינה הנכונה בעמודת המדינות.\n
+זכור: הקיצור של מדינת ישראל הוא ISR.\n\n
+
+שאלה: אני לא מצליח לכבות את הצלצול לאחר קבלת \'ringring\', מה עושים?\n
+תשובה: יש לפתוח את הדף הראשי באפליקציה ולגעת בצג המכשיר. במידה ותפעול זה לא הועיל, פתח את פאנל ההתראות של המכשיר (notification).
+    </string>
+
+    <string name="title_activity_introduction">introductionActivity</string>
+    <string name="title_activity_action_bar">ActionBarActivity</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_activity_main_activity2">MainActivity2Activity</string>
 
     <string name="action_settings">Settings</string>
 
@@ -515,4 +551,25 @@
         <item>260</item>
         <item>263</item>
     </string-array>
+
+    <string name="faq_title">שאלות נפוצות</string>
+    <string name="question">שאלה: </string>
+    <string name="answer">תשובה: </string>
+    <string name="option1">אפשרות א:</string>
+    <string name="option2">אפשרות ב:</string>
+    <string name="remember">זכור:</string>
+    <string name="remember2">זכור:</string>
+    <string name="faq_q1">למה הסמארטפון לא מצלצל כשאני שולח לו הודעת \'ringring\'?</string>
+    <string name="faq_a1">בדוק שהאפליקציה נמצאת במצב \'פועל\'. ע\"מ לבדוק זאת יש להיכנס למסך הראשי ולוודא
+שרשומה המילה \'פועל\' ולא רשומה המילה \'כבוי\'.</string>
+    <string name="faq_q2">האפליקציה במצב \'פועל\' ועדיין אינני שומע צלצול לאחר קבלת הודעת SMS עם המילה \'ringring\', מה לעשות?</string>
+    <string name="faq_a2_1">בפניך 2 אפשרויות:</string>
+    <string name="faq_a2_2">שנה בהגדרות מאפשרות \"קבלת הודעת \'ringring\' רק ממספר אחד\", לאפשרות \"קבלת הודעת \'ringring\' מכל טלפון\".</string>
+    <string name="faq_a2_3">באפשרותך לשנות את המספר היחיד ממנו תרצה לקבל הודעת \'ringring\' ע\"י עריכת המספר ידנית, או ע\"י בחירת מספר מרשימת אנשי הקשר במכשירך.</string>
+    <string name="faq_q3">האפליקציה במצב \'פועל\' ועדיין אינני שומע צלצול לאחר קבלת הודעת SMS עם המילה \'ringring\' מהמספר שרשום בעמוד הראשי.</string>
+    <string name="faq_a3">יתכן ולא הזנת את המדינה הנכונה בעמודת המדינות.</string>
+    <string name="remember_israel">הקיצור של מדינת ישראל הוא ISR.</string>
+    <string name="faq_q4">אני לא מצליח לכבות את הצלצול לאחר קבלת \'ringring\', מה עושים?</string>
+    <string name="faq_a4">יש לפתוח את הדף הראשי באפליקציה ולגעת בצג המכשיר. במידה ותפעול זה לא הועיל, פתח את פאנל ההתראות של המכשיר (notification).</string>
+
 </resources>

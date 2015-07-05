@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/allScreen"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:clickable="true">
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Power_OFF"
+        android:textColor="@android:color/holo_red_dark"
         android:id="@+id/mySwitch"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -15,25 +21,63 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:thumb="@drawable/thirdtheme_switch_thumb_activated_holo_light"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/abc_action_bar_content_inset_material"
+        android:visibility="gone">
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/radioGroup"
-        android:gravity="right">
+        android:id="@+id/ringRadioGroup">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/anyone"
-            android:id="@+id/radioButton" />
+            android:text="@string/make_phone_ring"
+            android:id="@+id/ringRadio1"/>
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/one_only"
-            android:id="@+id/radioButton2" />
+            android:text="@string/only_ring_mode"
+            android:id="@+id/ringRadio2" />
     </RadioGroup>
+        </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/thirdtheme_color"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/abc_action_bar_content_inset_material">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioGroup">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/anyone"
+                android:id="@+id/radioButton"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/one_only"
+                android:id="@+id/radioButton2" />
+        </RadioGroup>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:orientation="horizontal"
@@ -54,13 +98,12 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/my_country"
-                android:id="@+id/textView3" />
+                android:id="@+id/my_country_tag" />
 
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner" />
-
 
         </LinearLayout>
 
@@ -93,22 +136,6 @@
         android:id="@+id/button"
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true"
-        android:onClick="getContact"
         android:layout_gravity="center"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/intro_title"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/intro2"
-        android:id="@+id/textView2"
-        android:layout_marginTop="27dp" />
 
 </LinearLayout>
