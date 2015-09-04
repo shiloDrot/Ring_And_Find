@@ -1,27 +1,24 @@
 package com.example.shilo90.ringandfind;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -30,6 +27,7 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by shilo90 on 08/06/15.
@@ -38,24 +36,30 @@ public class fragmentHome extends Fragment{
 
     public static fragmentHome ins;
 
-    public static final int PICK_CONTACT = 1;
+    public static final int PICK_CONTACT1 = 1;
+    public static final int PICK_CONTACT2 = 2;
+    public static final int PICK_CONTACT3 = 3;
 
     public View layout;
     public TextView switchStatus;
     public Switch mySwitch;
     public RadioButton All;
     public RadioButton ONE;
-    public Button contact;
-    public EditText phone;
+    public ImageButton contact1;
+    public EditText phone1;
+    public ImageButton contact2;
+    public EditText phone2;
+    public ImageButton contact3;
+    public EditText phone3;
     public RadioGroup radioGroup;
-    public Spinner cntry;
-    public TextView tagMyCountry;
+    public Spinner soundSpinner;
 
-    private List<String> CountryList;
-    private List<String> CountryCodeList;
-    private ArrayAdapter<CharSequence> countryAdapter;
+    public TextView powerText;
+    public RadioButton r1;
+    public RadioButton r2;
 
-
+    private List<String> soundList;
+    private SpinnerAdapter soundAdapter;
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
@@ -64,38 +68,48 @@ public class fragmentHome extends Fragment{
 
         int power = sharedPref.getInt("power", 0);
         int radio = sharedPref.getInt("radio", 1);
-        int countryPos = sharedPref.getInt("countryPos", 100);
-        String text = sharedPref.getString("text", "");
+        int soundNumber = sharedPref.getInt("soundNumber", 0);
+        final String text1 = sharedPref.getString("text1", "");
+        final String text2 = sharedPref.getString("text2", "");
+        final String text3 = sharedPref.getString("text3", "");
 
         layout = inflater.inflate(R.layout.activity_main, container, false);
         switchStatus = ((TextView) layout.findViewById(R.id.mySwitch)); //(TextView) findViewById(R.id.mySwitch);
         mySwitch = (Switch) layout.findViewById(R.id.mySwitch);
         All = (RadioButton) layout.findViewById(R.id.radioButton);
         ONE = (RadioButton) layout.findViewById(R.id.radioButton2);
-        contact = (Button) layout.findViewById(R.id.button);
-        phone = (EditText) layout.findViewById(R.id.editText);
+        contact1 = (ImageButton) layout.findViewById(R.id.contacts1);
+        phone1 = (EditText) layout.findViewById(R.id.editTextNumber1);
+        contact2 = (ImageButton) layout.findViewById(R.id.contacts2);
+        phone2 = (EditText) layout.findViewById(R.id.editTextNumber2);
+        contact3 = (ImageButton) layout.findViewById(R.id.contacts3);
+        phone3 = (EditText) layout.findViewById(R.id.editTextNumber3);
         radioGroup = (RadioGroup) layout.findViewById(R.id.radioGroup);
-        cntry = (Spinner) layout.findViewById(R.id.spinner);
-        tagMyCountry = ((TextView) layout.findViewById(R.id.my_country_tag));
+        soundSpinner = (Spinner) layout.findViewById((R.id.spinner));
 
-        countryAdapter = ArrayAdapter.createFromResource(
-                getActivity(), R.array.item_array, R.layout.spinner_layout);
-        countryAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        cntry.setAdapter(countryAdapter);
-        cntry.setSelection(countryPos);
+        powerText = (TextView) layout.findViewById(R.id.textPower);
 
-        CountryList = Arrays.asList(getResources().getStringArray(R.array.item_array));
-        CountryCodeList = Arrays.asList(getResources().getStringArray(R.array.code_array));
+        //soundAdapter = ArrayAdapter.createFromResource(
+        //        getActivity(), R.array.soundarr, R.layout.spinner_layout);
+        soundAdapter = new SpinnerAdapter(getActivity(), R.layout.spinner_layout, getResources().getStringArray(R.array.soundarr));
+        soundAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        soundSpinner.setAdapter(soundAdapter);
+        soundSpinner.setSelection(soundNumber);
 
+        soundList = Arrays.asList(getResources().getStringArray(R.array.soundarr));
+
+        if (android.os.Build.VERSION.SDK_INT < 21) {
+            powerText.setVisibility(View.GONE);
+        }
         if (power == 1) {
             //set the switch to ON
-            mySwitch.setText("Power ON");
+            powerText.setText(getResources().getText(R.string.Power_ON));
             mySwitch.setChecked(true);
-            mySwitch.setTextColor(Color.rgb(169, 208, 221));
+            powerText.setTextColor(Color.rgb(169, 208, 221));
         } else {
-            mySwitch.setText("Power OFF");
+            powerText.setText(getResources().getText(R.string.Power_OFF));
             mySwitch.setChecked(false);
-            mySwitch.setTextColor(Color.RED);
+            powerText.setTextColor(Color.RED);
         }
 
         if (radio == 1) {
@@ -109,22 +123,45 @@ public class fragmentHome extends Fragment{
             ONE.setChecked(false);
         }
 
+        if (Locale.getDefault().getLanguage().equals("he") || Locale.getDefault().getLanguage().equals("iw")) {
+            r1 = (RadioButton)layout.findViewById(R.id.radioButton);
+            r2 = (RadioButton)layout.findViewById(R.id.radioButton2);
+            //r1.setGravity(Gravity.RIGHT);
+            //r2.setGravity(Gravity.RIGHT);
+            //r1.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            //r2.setLayoutDirection(View.LAYOUT_DIRECTION_RTL );
+        }
         All.setEnabled(mySwitch.isChecked());
         ONE.setEnabled(mySwitch.isChecked());
 
-        phone.setText(text);
+        phone1.setText(text1);
+        phone2.setText(text2);
+        phone3.setText(text3);
 
-        contact.setEnabled(ONE.isChecked() && mySwitch.isChecked());
-        phone.setEnabled(ONE.isChecked() && mySwitch.isChecked());
-        cntry.setEnabled(ONE.isChecked() && mySwitch.isChecked());
-        if (cntry.isEnabled()) {
-            cntry.setAlpha(1.0f);
-            tagMyCountry.setTextColor(Color.BLACK);
-        }
-        else {
-            cntry.setAlpha(0.4f);
-            tagMyCountry.setTextColor(Color.GRAY);
-        }
+        contact1.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+        phone1.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+        contact2.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+        phone2.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+        contact3.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+        phone3.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+
+        soundSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView adapter, View v, int i, long lng) {
+
+                //String selecteditem = adapter.getItemAtPosition(i).toString();
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putInt("soundNumber", i);
+                editor.commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });
 
         mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -136,30 +173,26 @@ public class fragmentHome extends Fragment{
                 SharedPreferences.Editor editor = sharedPref.edit();
 
                 if (isChecked) {
-                    mySwitch.setText(getResources().getText(R.string.Power_ON));
-                    mySwitch.setTextColor(Color.rgb(169, 208, 221));
+                    powerText.setText(getResources().getText(R.string.Power_ON));
+                    powerText.setTextColor(Color.rgb(169, 208, 221));
                     editor.putInt("power", 1);
 
                 } else {
-                    mySwitch.setText(getResources().getText(R.string.Power_OFF));
-                    mySwitch.setTextColor(Color.RED);
+                    powerText.setText(getResources().getText(R.string.Power_OFF));
+                    powerText.setTextColor(Color.RED);
                     editor.putInt("power", 0);
                 }
                 editor.commit();
 
                 All.setEnabled(mySwitch.isChecked());
                 ONE.setEnabled(mySwitch.isChecked());
-                contact.setEnabled(ONE.isChecked() && mySwitch.isChecked());
-                phone.setEnabled(ONE.isChecked() && mySwitch.isChecked());
-                cntry.setEnabled(ONE.isChecked() && mySwitch.isChecked());
-                if (cntry.isEnabled()) {
-                    cntry.setAlpha(1.0f);
-                    tagMyCountry.setTextColor(Color.BLACK);
-                }
-                else {
-                    cntry.setAlpha(0.4f);
-                    tagMyCountry.setTextColor(Color.GRAY);
-                }
+                contact1.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+                phone1.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+                contact2.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+                phone2.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+                contact3.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+                phone3.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+
             }
         });
 
@@ -182,21 +215,17 @@ public class fragmentHome extends Fragment{
 
                 editor.commit();
 
-                contact.setEnabled(ONE.isChecked() && mySwitch.isChecked());
-                phone.setEnabled(ONE.isChecked() && mySwitch.isChecked());
-                cntry.setEnabled(ONE.isChecked() && mySwitch.isChecked());
-                if (cntry.isEnabled()) {
-                    cntry.setAlpha(1.0f);
-                    tagMyCountry.setTextColor(Color.BLACK);
-                }
-                else {
-                    cntry.setAlpha(0.4f);
-                    tagMyCountry.setTextColor(Color.GRAY);
-                }
+                contact1.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+                phone1.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+                contact2.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+                phone2.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+                contact3.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+                phone3.setEnabled(ONE.isChecked() && mySwitch.isChecked());
+
             }
         });
 
-        phone.addTextChangedListener(new TextWatcher() {
+        phone1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -206,7 +235,7 @@ public class fragmentHome extends Fragment{
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("text", s.toString());
+                editor.putString("text1", s.toString());
                 editor.commit();
             }
 
@@ -216,21 +245,92 @@ public class fragmentHome extends Fragment{
             }
         });
 
-        contact.setOnClickListener(new View.OnClickListener() {
+        phone2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("text2", s.toString());
+                editor.commit();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        phone3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("text3", s.toString());
+                editor.commit();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        contact1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                getActivity().startActivityForResult(intent, PICK_CONTACT);
+                getActivity().startActivityForResult(intent, PICK_CONTACT1);
             }
         });
+
+        contact2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                getActivity().startActivityForResult(intent, PICK_CONTACT2);
+            }
+        });
+
+        contact3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                getActivity().startActivityForResult(intent, PICK_CONTACT3);
+            }
+        });
+
+
+
+
 
 
         ins = this;
         return layout;
     }
 
-    public void setPhone (String p) {
-        phone.setText(p);
+    public void setPhone1 (String p) {
+        phone1.setText(p);
     }
+    public void setPhone2 (String p) {
+        phone2.setText(p);
+    }
+
+    public void setPhone3 (String p) {
+
+        phone3.setText(p);
+    }
+
+
+
 
 }

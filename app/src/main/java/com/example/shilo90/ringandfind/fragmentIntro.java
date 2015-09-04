@@ -66,15 +66,8 @@ public class fragmentIntro extends Fragment {
 
                 "<b>" +question + "</b> " + question2 +"<br>" +
                 "<b>" +answer + "</b> " + answer2_1 + "<br>" +
-                "<b>" +option1 + "</b> " + answer2_2 + "<br>" +
-                "<b>" +option2 + "</b> " + answer2_3 + "<br>" + "<br>" +
-
-                "<b>" +question + "</b> " + question3 +"<br>" +
-                "<b>" +answer + "</b> " + answer3 + "<br>" +
-                "<b>" + remember2 + "</b> " + rememberIsrael + "<br>" + "<br>" +
-
-                "<b>" +question + "</b> " + question4 +"<br>" +
-                "<b>" +answer + "</b> " + answer4 + "<br>";
+                "&emsp<b>" +option1 + "</b> " + answer2_2 + "<br>" +
+                "&emsp<b>" +option2 + "</b> " + answer2_3 + "<br>" + "<br>";
 
         txt.setText(Html.fromHtml(AllText));
 

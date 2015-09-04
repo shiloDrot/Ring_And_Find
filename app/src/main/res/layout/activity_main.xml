@@ -8,58 +8,81 @@
     android:focusableInTouchMode="true"
     android:clickable="true">
 
-    <Switch
+
+
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Power_OFF"
-        android:textColor="@android:color/holo_red_dark"
-        android:id="@+id/mySwitch"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="center"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:thumb="@drawable/thirdtheme_switch_thumb_activated_holo_light"/>
-    <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/abc_action_bar_content_inset_material"
-        android:visibility="gone">
+        android:layout_gravity="center">
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ringRadioGroup">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/power"
+            android:id="@+id/textPower"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
 
-        <RadioButton
+        <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/make_phone_ring"
-            android:id="@+id/ringRadio1"/>
+            android:text=""
+            android:textColor="@android:color/holo_red_dark"
+            android:id="@+id/mySwitch"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:thumb="@drawable/thirdtheme_switch_inner_holo_light" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/only_ring_mode"
-            android:id="@+id/ringRadio2" />
-    </RadioGroup>
-        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/trySound"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/trySound"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/btn_select3"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/thirdtheme_color"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"/>
+
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/abc_action_bar_content_inset_material">
+        android:layout_marginLeft="@dimen/abc_action_bar_content_inset_material"
+        android:layout_marginRight="@dimen/abc_action_bar_content_inset_material">
 
         <RadioGroup
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radioGroup">
 
@@ -67,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/anyone"
-                android:id="@+id/radioButton"/>
+                android:id="@+id/radioButton" />
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -79,63 +102,124 @@
     </LinearLayout>
 
 
+
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/my_country"
-                android:id="@+id/my_country_tag" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinner" />
-
-        </LinearLayout>
-
-
+        android:weightSum="15"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp">
 
         <EditText
             android:layout_width="0dp"
+
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:inputType="phone"
             android:ems="10"
-            android:id="@+id/editText"
-            android:layout_below="@+id/radioGroup"
-            android:layout_centerHorizontal="true"
+            android:id="@+id/editTextNumber1"
             android:hint="@string/phone_number"
             android:gravity="center"
-            android:layout_weight="7"
-            android:paddingTop="30dp"
-            android:paddingBottom="10dp"/>
+            android:layout_weight="15"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:layout_gravity="center" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/contacts1"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_select2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="15"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp">
+
+        <EditText
+            android:layout_width="0dp"
+
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:ems="10"
+            android:id="@+id/editTextNumber2"
+            android:hint="@string/phone_number"
+            android:gravity="center"
+            android:layout_weight="15"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:layout_gravity="center" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/contacts2"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_select2" />
+
 
 
 
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/get_number"
-        android:id="@+id/button"
-        android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"/>
+        android:weightSum="15"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp">
+
+        <EditText
+            android:layout_width="0dp"
+
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:ems="10"
+            android:id="@+id/editTextNumber3"
+            android:hint="@string/phone_number"
+            android:gravity="center"
+            android:layout_weight="15"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:layout_gravity="center" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/contacts3"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_select2" />
+
+
+
+
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/thirdtheme_color"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"/>
+
+
 
 </LinearLayout>

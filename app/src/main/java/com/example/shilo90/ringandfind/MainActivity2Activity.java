@@ -121,16 +121,20 @@ public class MainActivity2Activity extends ActionBarActivity implements ActionBa
             //return PlaceholderFragment.newInstance(position + 1);
             f = new fragmentHome();
             fragmentIntro f2 = new fragmentIntro();
+            FragmentSendRingRing f3 = new FragmentSendRingRing();
             if (position == 0) {
                 return f;
             }
-            return f2;
+            else if (position == 2) {
+                return f2;
+            }
+            return f3;
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
@@ -139,8 +143,10 @@ public class MainActivity2Activity extends ActionBarActivity implements ActionBa
             switch (position) {
                 case 0:
                     return getString(R.string.title_section1).toUpperCase(l);
-                case 1:
+                case 2:
                     return getString(R.string.title_section2).toUpperCase(l);
+                case 1:
+                    return getString(R.string.title_section3).toUpperCase(l);
             }
             return null;
         }
@@ -151,7 +157,7 @@ public class MainActivity2Activity extends ActionBarActivity implements ActionBa
         super.onActivityResult(reqCode, resultCode, data);
         String name1 = "";
         switch (reqCode) {
-            case (fragmentHome.PICK_CONTACT) :
+            case (fragmentHome.PICK_CONTACT1) :
                 if (resultCode == Activity.RESULT_OK) {
 
                     Uri contactData = data.getData();
@@ -159,6 +165,50 @@ public class MainActivity2Activity extends ActionBarActivity implements ActionBa
                     if (c.moveToFirst()) {
                         name1 = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                     }
+                }
+                else {
+                    return;
+                }
+                break;
+
+            case (fragmentHome.PICK_CONTACT2) :
+                if (resultCode == Activity.RESULT_OK) {
+
+                    Uri contactData = data.getData();
+                    Cursor c =  getContentResolver().query(contactData, null, null, null, null);
+                    if (c.moveToFirst()) {
+                        name1 = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    }
+                }
+                else {
+                    return;
+                }
+                break;
+
+            case (fragmentHome.PICK_CONTACT3) :
+                if (resultCode == Activity.RESULT_OK) {
+
+                    Uri contactData = data.getData();
+                    Cursor c =  getContentResolver().query(contactData, null, null, null, null);
+                    if (c.moveToFirst()) {
+                        name1 = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    }
+                }
+                else {
+                    return;
+                }
+                break;
+            case (FragmentSendRingRing.CONTACT_TO_SEND):
+                if (resultCode == Activity.RESULT_OK) {
+
+                    Uri contactData = data.getData();
+                    Cursor c =  getContentResolver().query(contactData, null, null, null, null);
+                    if (c.moveToFirst()) {
+                        name1 = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    }
+                }
+                else {
+                    return;
                 }
                 break;
         }
@@ -172,22 +222,81 @@ public class MainActivity2Activity extends ActionBarActivity implements ActionBa
         int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
         int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
-        people.moveToFirst();
-        do {
-            String name   = people.getString(indexName);
-            String number = people.getString(indexNumber);
-            if (name.equals(name1)) {
-                String FinalNumber = putOutChars(number);
-                FinalNumber = putOutChars2(FinalNumber);
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("text", FinalNumber);
-                editor.commit();
+        if  (reqCode == fragmentHome.PICK_CONTACT1) {
+            people.moveToFirst();
+            do {
+                String name   = people.getString(indexName);
+                String number = people.getString(indexNumber);
+                if (name.equals(name1)) {
+                    String FinalNumber = putOutChars(number);
+                    FinalNumber = putOutChars2(FinalNumber);
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("text1", FinalNumber);
+                    editor.commit();
 
-                fragmentHome.ins.setPhone(FinalNumber);
-                break;
-            }
-        } while (people.moveToNext());
+                    fragmentHome.ins.setPhone1(FinalNumber);
+                    break;
+                }
+            } while (people.moveToNext());
+        }
+
+        else if  (reqCode == fragmentHome.PICK_CONTACT2) {
+            people.moveToFirst();
+            do {
+                String name   = people.getString(indexName);
+                String number = people.getString(indexNumber);
+                if (name.equals(name1)) {
+                    String FinalNumber = putOutChars(number);
+                    FinalNumber = putOutChars2(FinalNumber);
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("text2", FinalNumber);
+                    editor.commit();
+
+                    fragmentHome.ins.setPhone2(FinalNumber);
+                    break;
+                }
+            } while (people.moveToNext());
+        }
+
+        else if  (reqCode == fragmentHome.PICK_CONTACT3) {
+            people.moveToFirst();
+            do {
+                String name   = people.getString(indexName);
+                String number = people.getString(indexNumber);
+                if (name.equals(name1)) {
+                    String FinalNumber = putOutChars(number);
+                    FinalNumber = putOutChars2(FinalNumber);
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("text3", FinalNumber);
+                    editor.commit();
+
+                    fragmentHome.ins.setPhone3(FinalNumber);
+                    break;
+                }
+            } while (people.moveToNext());
+        }
+
+        else if  (reqCode == FragmentSendRingRing.CONTACT_TO_SEND) {
+            people.moveToFirst();
+            do {
+                String name   = people.getString(indexName);
+                String number = people.getString(indexNumber);
+                if (name.equals(name1)) {
+                    String FinalNumber = putOutChars(number);
+                    FinalNumber = putOutChars2(FinalNumber);
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("textSMS", FinalNumber);
+                    editor.commit();
+
+                    FragmentSendRingRing.SendRingRingIns.phoneNumber.setText(FinalNumber);
+                    break;
+                }
+            } while (people.moveToNext());
+        }
 
     }
 

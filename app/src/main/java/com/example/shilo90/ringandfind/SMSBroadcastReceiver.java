@@ -25,7 +25,6 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
 
     public NotificationManager myNotificationManager;
     public static final int NOTIFICATION_ID = 2;
-    public static MediaPlayer mp;
     public static NotificationManager notificationManager;
 
     public Context myContext;
@@ -55,7 +54,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             //---display the new SMS message---
             //Toast.makeText(context, messageReceived, Toast.LENGTH_SHORT).show();
             Log.i("MyApp", messageReceived);
-
+            messageReceived = messageReceived.toLowerCase();
             // Get the Sender Phone Number
             String senderPhoneNumber=msgs[0].getOriginatingAddress ();
             Log.i("MyApp", senderPhoneNumber);
@@ -63,41 +62,38 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             int power = sharedPref.getInt("power", 0);
             int radio = sharedPref.getInt("radio", 1);
-            String text = sharedPref.getString("text", "");
-            if (text.equals("")) {
-                text = " ";
+            String text1 = sharedPref.getString("text1", "");
+            String text2 = sharedPref.getString("text2", "");
+            String text3 = sharedPref.getString("text3", "");
+            if (text1.equals("")) {
+                text1 = " ";
+            }
+
+            if (text2.equals("")) {
+                text2 = " ";
+            }
+
+            if (text3.equals("")) {
+                text3 = " ";
             }
 
             if (power == 0) {
                 return;
             }
 
-            if (!messageReceived.equals("ringring") && !messageReceived.equals("Ringring")) {
+            if (!messageReceived.equals("ringring") && !messageReceived.equals("ringring ")) {
                 return;
             }
 
             if (radio == 0){// && (!senderPhoneNumber.equals(text) || !(text.substring(1).equals(senderPhoneNumber.substring(4))))) {
-                if (!senderPhoneNumber.equals(text)) {
-                    if (sharedPref.getString("country", "").equals("DOM")){
-                        String temp1 = "+1-809" + text.substring(1);
-                        String temp2 = "+1-829" + text.substring(1);
-                        String temp3 = "+1-849" + text.substring(1);
-                        if(!senderPhoneNumber.equals(temp1) || !senderPhoneNumber.equals(temp2) || !senderPhoneNumber.equals(temp3)){
-                            return;
-                        }
+                Boolean b = CheckEqualNumber(senderPhoneNumber, text1);
+                if (!b) {
+                    b = CheckEqualNumber(senderPhoneNumber, text2);
+                    if (!b) {
+                        b = CheckEqualNumber(senderPhoneNumber, text3);
                     }
-                    else if (sharedPref.getString("country", "").equals("PRI")){
-                        String temp1 = "+1-787" + text.substring(1);
-                        String temp2 = "+1-939" + text.substring(1);
-                        if(!senderPhoneNumber.equals(temp1) || !senderPhoneNumber.equals(temp2)){
-                            return;
-                        }
-                    }
-                    else {
-                        text = "+" + sharedPref.getString("countryCode", "972") + text.substring(1);
-                        if (!senderPhoneNumber.equals(text)) {
-                            return;
-                        }
+                    if (!b) {
+                        return;
                     }
                 }
             }
@@ -122,14 +118,23 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
 
             manager.setStreamVolume(AudioManager.STREAM_RING, manager.getStreamMaxVolume(manager.STREAM_RING), 0);
 
-            try {
-                sendIntent(myContext);
-                Log.i("MyApp", "send intent");
-            } catch (IOException e) {
-                Log.i("MyApp", e.toString());
-                e.printStackTrace();
-            }
-                        startNotification(context);
+            //start main activity intent, delay of 1.5 seconds
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        sendIntent(myContext);
+                        Log.i("MyApp", "send intent");
+                    } catch (IOException e) {
+                        Log.i("MyApp", e.toString());
+                        e.printStackTrace();
+                    }
+                }
+            }, 1500);
+
+            //send notification
+            startNotification(context);
             //displayAlert(context);
         }
     }
@@ -140,13 +145,20 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         //Define sound URI
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        //Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+
+        //ofir help
+        //Uri soundUri = Uri.parse("android.resource://com.example.shilo90.ringandfind" + R.raw.ringring2);
+
+        Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.ringring1long);
+
+
 
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_ring_volume_white_24dp)
                 .setContentTitle(context.getResources().getText(R.string.app_name))
                 .setContentText(context.getResources().getText(R.string.notification))
-                .setSound(soundUri); //This sets the sound to play
+                .setSound(sound); //This sets the sound to play
 
         //Display notification
         final Handler handler = new Handler();
@@ -155,7 +167,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             public void run() {
                 notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
             }
-        }, 1200);
+        }, 5000);
 
     }
 
@@ -163,10 +175,24 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         Intent i = new Intent(context, MainActivity2Activity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("ring", 5);
-        /*i.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED +
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD +
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON +
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);*/
         context.startActivity(i);
+    }
+
+    public Boolean CheckEqualNumber(String Sender, String textInTextBox)
+    {
+        if (!Sender.equals(textInTextBox)){
+            try {
+                String a = textInTextBox.substring(1);
+                String b = Sender.substring(Sender.length()-a.length());
+                if (!a.equals(b)) {
+                    return false;
+                }
+            }
+            catch (Exception e) {
+
+                return false;
+            }
+        }
+        return true;
     }
 }
