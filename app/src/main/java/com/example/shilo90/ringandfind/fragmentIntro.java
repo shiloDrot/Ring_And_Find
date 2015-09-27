@@ -48,12 +48,6 @@ public class fragmentIntro extends Fragment {
         String answer2_2 = getResources().getString(R.string.faq_a2_2);
         String answer2_3 = getResources().getString(R.string.faq_a2_3);
 
-        String question3 = getResources().getString(R.string.faq_q3);
-        String answer3 = getResources().getString(R.string.faq_a3);
-        String rememberIsrael = getResources().getString(R.string.remember_israel);
-
-        String question4 = getResources().getString(R.string.faq_q4);
-        String answer4 = getResources().getString(R.string.faq_a4);
 
 
 

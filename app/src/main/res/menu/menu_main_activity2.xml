@@ -1,7 +1,9 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.shilo90.ringandfind.MainActivity2Activity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_share" android:title="Share"
+        android:icon="@drawable/share" android:showAsAction="always"
+        android:orderInCategory="100"/>
+    <item android:id="@+id/action_rate" android:title=""
+        android:icon="@drawable/share"
+        android:orderInCategory="100"/>
 </menu>

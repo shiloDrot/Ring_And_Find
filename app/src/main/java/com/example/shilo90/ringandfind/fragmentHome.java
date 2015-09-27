@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.annotation.DrawableRes;
@@ -53,6 +55,7 @@ public class fragmentHome extends Fragment{
     public EditText phone3;
     public RadioGroup radioGroup;
     public Spinner soundSpinner;
+    public ImageButton playBtn;
 
     public TextView powerText;
     public RadioButton r1;
@@ -60,6 +63,10 @@ public class fragmentHome extends Fragment{
 
     private List<String> soundList;
     private SpinnerAdapter soundAdapter;
+
+    private MediaPlayer mPlayer1;
+    private Boolean isPlaying = false;
+    private int clickPlay = 0;
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
@@ -86,7 +93,7 @@ public class fragmentHome extends Fragment{
         phone3 = (EditText) layout.findViewById(R.id.editTextNumber3);
         radioGroup = (RadioGroup) layout.findViewById(R.id.radioGroup);
         soundSpinner = (Spinner) layout.findViewById((R.id.spinner));
-
+        playBtn = (ImageButton) layout.findViewById(R.id.trySound);
         powerText = (TextView) layout.findViewById(R.id.textPower);
 
         //soundAdapter = ArrayAdapter.createFromResource(
@@ -309,8 +316,17 @@ public class fragmentHome extends Fragment{
             }
         });
 
-
-
+        playBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isPlaying) {
+                    playMusic(clickPlay);
+                }
+                else {
+                    stopMusic();
+                }
+            }
+        });
 
 
 
@@ -324,12 +340,65 @@ public class fragmentHome extends Fragment{
     public void setPhone2 (String p) {
         phone2.setText(p);
     }
-
     public void setPhone3 (String p) {
-
         phone3.setText(p);
     }
 
+    public void playMusic(final int currentClickPlay) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int soundNumber = sharedPref.getInt("soundNumber", 0);
+        switch(soundNumber) {
+            case 0:
+                mPlayer1 = MediaPlayer.create(getActivity(), R.raw.ringring1long);
+                mPlayer1.start();
+                isPlaying = true;
+                break;
+            case 1:
+                mPlayer1 = MediaPlayer.create(getActivity(), R.raw.china_long);
+                mPlayer1.start();
+                isPlaying = true;
+                break;
+            case 2:
+                mPlayer1 = MediaPlayer.create(getActivity(), R.raw.ringring1long);
+                mPlayer1.start();
+                isPlaying = true;
+                break;
+            default:
+                break;
+
+        }
+
+        playBtn.setBackgroundResource(R.drawable.btn_select4);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (currentClickPlay == clickPlay - 1) {
+                    stopMusic();
+                }
+            }
+        }, 61000);
+
+        clickPlay++;
+    }
+
+    public void stopMusic() {
+        mPlayer1.stop();
+        isPlaying = false;
+        //stopBtn.setVisibility(View.GONE);
+        //playBtn.setVisibility(View.VISIBLE);
+        playBtn.setBackgroundResource(R.drawable.btn_select3);
+
+    }
+
+    @Override
+    public void onPause() {
+        if (isPlaying) {
+            stopMusic();
+        }
+        super.onPause();
+    }
 
 
 

@@ -56,26 +56,6 @@
 
     </string>
 
-    <string name="faq">
-
-שאלה: למה הסמארטפון לא מצלצל כשאני שולח לא הודעת \'ringring\'?\n מה לעשות?
-תשובה: בדוק שהאפליקציה נמצאת במצב \'פועל\'. ע"מ לבדוק זאת יש להיכנס למסך ההראשי ולוודא
-ברשומה המילה 'פועל' ולא רשומה המילה \'כבוי\'.\n \n
-
-שאלה: האפליקציה במצב \'פועל\' ועדיין אינני שומע צלצול לאחר קבלת הודעת SMS עם המילה \'ringring\' מה לעשות?
-תשובה: יתכן שהגדרת שהודעת \'ringring\' תתקבל רק ממספר אחד שהוא שונה מהמספר שנשלחה ממנו הודעת הSMS.
-בפניך 2 אפשרויות:\n
-אפשרות א: שנה בהגדרות מהאפשרות – קבלת הודעת \'ringring\' רק ממספר אחד לאפשרות – קבלת הודעת \'ringring\' מכל טלפון.\n
-אפשרות ב: באפשרותך לשנות את המספר היחיד ממנו תרצה לקבל הודעת \'ringring\' ע\"י עריכת המספר ידנית, או ע\"י בחירת מספר מרשימת אנשי הקשר במכשירך.\n\n
-
-שאלה: האפליקציה במצב \'פועל\' ועדיין אינני שומע צלצול לאחר קבלת הודעת SMS עם המילה \'ringring\' מהמספר שרשום בעמוד הראשי.\n
-תשובה: יתכן ולא הזנת את המדינה הנכונה בעמודת המדינות.\n
-זכור: הקיצור של מדינת ישראל הוא ISR.\n\n
-
-שאלה: אני לא מצליח לכבות את הצלצול לאחר קבלת \'ringring\', מה עושים?\n
-תשובה: יש לפתוח את הדף הראשי באפליקציה ולגעת בצג המכשיר. במידה ותפעול זה לא הועיל, פתח את פאנל ההתראות של המכשיר (notification).
-    </string>
-
     <string name="faq_title">FAQ</string>
     <string name="question">Question: </string>
     <string name="answer">Answer: </string>
@@ -84,19 +64,13 @@
     <string name="remember">Remember:</string>
     <string name="remember2"></string>
     <string name="faq_q1">Why does the phone not ringing after receiving \'ringring\' SMS?</string>
-    <string name="faq_a1">Make sure that hte power switch is ON in the HOME tab.</string>
+    <string name="faq_a1">Make sure that the power switch is ON in the HOME tab.</string>
     <string name="faq_q2">The power switch is ON, but still the phone refuse to ring after receiving \'ringring\' SMS, what should I do?</string>
     <string name="faq_a2_1">There are 2 options:</string>
     <string name="faq_a2_2">Change the setting in the HOME tab from \"Receive ringring SMS only from:\" to \"Receive ringring SMS from any Phone number\".</string>
     <string name="faq_a2_3">
             You can change the phone number who can send you \'ringring\' SMS by editing the number MANUALLY, or by pressing on the contact button and selecting number from your contacts.
     </string>
-    <string name="faq_q3">The power switch is ON, and I add the number who can send me \'ringring\' SMS correctly, but still the phone refuse to ring.</string>
-    <string name="faq_a3">You\'ll need to make sure that you added the correct country code of your country</string>
-    <string name="remember_israel"></string>
-    <string name="faq_q4">I can\'t turn off the ring after receiving \'ringring\' SMS, what should I do?</string>
-    <string name="faq_a4">You\'ll need to open this APP and touch the phone screen, other way to stop the ring is to drop down the notification bar.</string>
-
 
     <string-array name="soundarr">
         <item>Ring1</item>
